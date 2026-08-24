@@ -1,0 +1,62 @@
+# ============================================================
+# STM32 Firmware
+# ============================================================
+
+# Build directories
+/firmware/Debug/
+/firmware/Release/
+/firmware/build/
+/firmware/Build/
+/firmware/out/
+
+# Compiled files
+/firmware/**/*.o
+/firmware/**/*.obj
+/firmware/**/*.d
+/firmware/**/*.dep
+/firmware/**/*.su
+/firmware/**/*.cyclo
+
+# Firmware binaries
+/firmware/**/*.elf
+/firmware/**/*.bin
+/firmware/**/*.hex
+/firmware/**/*.map
+/firmware/**/*.list
+/firmware/**/*.lst
+
+# Libraries generated during compilation
+/firmware/**/*.a
+/firmware/**/*.lib
+
+# STM32CubeIDE local files
+/firmware/.settings/
+/firmware/*.launch
+
+# Temporary files
+*.bak
+*.tmp
+*.orig
+*.swp
+*.swo
+*~
+
+# ============================================================
+# VS Code
+# ============================================================
+
+.vscode/
+
+# ============================================================
+# Operating System
+# ============================================================
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+.directory
