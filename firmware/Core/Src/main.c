@@ -118,8 +118,8 @@ int main(void)
 
 			  int32_t value = atoi(&command[1]);
 
-			  if(value >= 0 && value <= 100){
-				  uint32_t pwmValue = 90000 + (value * 900);
+			  if(value >= 0 && value <= 1000){
+				  uint32_t pwmValue = 90000 + (value * 90);
 				  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pwmValue);
 			  }
 		  }
