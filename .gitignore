@@ -1,41 +1,44 @@
 # ============================================================
-# STM32 Firmware
+# STM32CubeIDE / STM32CubeMX
 # ============================================================
 
-**/.metadata/
-
 # Build directories
-/firmware/Debug/
-/firmware/Release/
-/firmware/build/
-/firmware/Build/
-/firmware/out/
+**/Debug/
+**/Release/
+**/build/
+**/Build/
+**/out/
 
-# Compiled files
-/firmware/**/*.o
-/firmware/**/*.obj
-/firmware/**/*.d
-/firmware/**/*.dep
-/firmware/**/*.su
-/firmware/**/*.cyclo
+# Eclipse / STM32CubeIDE local settings
+**/.settings/
+**/.metadata/
+**/*.launch
+**/.mxproject
+
+# Generated dependency/build files
+**/*.o
+**/*.obj
+**/*.d
+**/*.dep
+**/*.su
+**/*.cyclo
 
 # Firmware binaries
-/firmware/**/*.elf
-/firmware/**/*.bin
-/firmware/**/*.hex
-/firmware/**/*.map
-/firmware/**/*.list
-/firmware/**/*.lst
+**/*.elf
+**/*.bin
+**/*.hex
+**/*.map
+**/*.list
+**/*.lst
 
 # Libraries generated during compilation
-/firmware/**/*.a
-/firmware/**/*.lib
+**/*.a
+**/*.lib
 
-# STM32CubeIDE local files
-/firmware/.settings/
-/firmware/*.launch
-
+# ============================================================
 # Temporary files
+# ============================================================
+
 *.bak
 *.tmp
 *.orig
@@ -44,21 +47,17 @@
 *~
 
 # ============================================================
-# VS Code
+# Editors
 # ============================================================
 
 .vscode/
+.idea/
 
 # ============================================================
-# Operating System
+# Operating systems
 # ============================================================
 
-# macOS
 .DS_Store
-
-# Windows
 Thumbs.db
 Desktop.ini
-
-# Linux
 .directory

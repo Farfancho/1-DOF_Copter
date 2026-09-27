@@ -1,4 +1,0 @@
-../Core/Src/serial.c:10:6:serialInit	1
-../Core/Src/serial.c:18:9:serialAvailable	1
-../Core/Src/serial.c:22:6:serialReadLine	2
-../Core/Src/serial.c:33:6:HAL_UART_RxCpltCallback	6
