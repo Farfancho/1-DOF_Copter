@@ -1,0 +1,25 @@
+[0.850s] Invoking command in '/home/alejo/Desktop/1-DOF_Copter/copter_ws/src/copter': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/alejo/Desktop/1-DOF_Copter/copter_ws/build/copter/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/copter build --build-base /home/alejo/Desktop/1-DOF_Copter/copter_ws/build/copter/build install --record /home/alejo/Desktop/1-DOF_Copter/copter_ws/build/copter/install.log --install-scripts $base/lib/copter --single-version-externally-managed install_data
+[1.126s] running egg_info
+[1.150s] writing ../../build/copter/copter.egg-info/PKG-INFO
+[1.150s] writing dependency_links to ../../build/copter/copter.egg-info/dependency_links.txt
+[1.150s] writing entry points to ../../build/copter/copter.egg-info/entry_points.txt
+[1.151s] writing requirements to ../../build/copter/copter.egg-info/requires.txt
+[1.151s] writing top-level names to ../../build/copter/copter.egg-info/top_level.txt
+[1.197s] reading manifest file '../../build/copter/copter.egg-info/SOURCES.txt'
+[1.198s] writing manifest file '../../build/copter/copter.egg-info/SOURCES.txt'
+[1.198s] running build
+[1.198s] running build_py
+[1.198s] copying copter/serialNode.py -> /home/alejo/Desktop/1-DOF_Copter/copter_ws/build/copter/build/lib/copter
+[1.198s] running install
+[1.203s] running install_lib
+[1.228s] copying /home/alejo/Desktop/1-DOF_Copter/copter_ws/build/copter/build/lib/copter/serialNode.py -> /home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/python3.12/site-packages/copter
+[1.229s] byte-compiling /home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/python3.12/site-packages/copter/serialNode.py to serialNode.cpython-312.pyc
+[1.229s] running install_data
+[1.229s] running install_egg_info
+[1.254s] removing '/home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/python3.12/site-packages/copter-0.0.0-py3.12.egg-info' (and everything under it)
+[1.255s] Copying ../../build/copter/copter.egg-info to /home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/python3.12/site-packages/copter-0.0.0-py3.12.egg-info
+[1.255s] running install_scripts
+[1.414s] Installing serial script to /home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/copter
+[1.414s] Installing tester script to /home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/copter
+[1.414s] writing list of installed files to '/home/alejo/Desktop/1-DOF_Copter/copter_ws/build/copter/install.log'
+[1.446s] Invoked command in '/home/alejo/Desktop/1-DOF_Copter/copter_ws/src/copter' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/alejo/Desktop/1-DOF_Copter/copter_ws/build/copter/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/copter build --build-base /home/alejo/Desktop/1-DOF_Copter/copter_ws/build/copter/build install --record /home/alejo/Desktop/1-DOF_Copter/copter_ws/build/copter/install.log --install-scripts $base/lib/copter --single-version-externally-managed install_data

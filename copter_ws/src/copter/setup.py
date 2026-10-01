@@ -24,6 +24,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'serial = copter.serialNode:main',
+            'tester = copter.userBroadcast:main',
         ],
     },
 )

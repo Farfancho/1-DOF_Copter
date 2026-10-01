@@ -1,0 +1,23 @@
+running egg_info
+writing ../../build/copter/copter.egg-info/PKG-INFO
+writing dependency_links to ../../build/copter/copter.egg-info/dependency_links.txt
+writing entry points to ../../build/copter/copter.egg-info/entry_points.txt
+writing requirements to ../../build/copter/copter.egg-info/requires.txt
+writing top-level names to ../../build/copter/copter.egg-info/top_level.txt
+reading manifest file '../../build/copter/copter.egg-info/SOURCES.txt'
+writing manifest file '../../build/copter/copter.egg-info/SOURCES.txt'
+running build
+running build_py
+copying copter/serialNode.py -> /home/alejo/Desktop/1-DOF_Copter/copter_ws/build/copter/build/lib/copter
+running install
+running install_lib
+copying /home/alejo/Desktop/1-DOF_Copter/copter_ws/build/copter/build/lib/copter/serialNode.py -> /home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/python3.12/site-packages/copter
+byte-compiling /home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/python3.12/site-packages/copter/serialNode.py to serialNode.cpython-312.pyc
+running install_data
+running install_egg_info
+removing '/home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/python3.12/site-packages/copter-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../../build/copter/copter.egg-info to /home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/python3.12/site-packages/copter-0.0.0-py3.12.egg-info
+running install_scripts
+Installing serial script to /home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/copter
+Installing tester script to /home/alejo/Desktop/1-DOF_Copter/copter_ws/install/copter/lib/copter
+writing list of installed files to '/home/alejo/Desktop/1-DOF_Copter/copter_ws/build/copter/install.log'
