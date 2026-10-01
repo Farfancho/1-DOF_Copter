@@ -1,0 +1,32 @@
+[34.714s] Invoking command in '/home/alejandro/Desktop/1-DOF_Copter/copter_ws/src/Copter': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/alejandro/Desktop/1-DOF_Copter/copter_ws/build/Copter/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/alejandro/Desktop/1-DOF_Copter/copter_ws/install/Copter/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/Copter build --build-base /home/alejandro/Desktop/1-DOF_Copter/copter_ws/build/Copter/build install --record /home/alejandro/Desktop/1-DOF_Copter/copter_ws/build/Copter/install.log --install-scripts $base/lib/Copter --single-version-externally-managed install_data
+[35.119s] running egg_info
+[35.119s] creating ../../build/Copter/Copter.egg-info
+[35.147s] writing ../../build/Copter/Copter.egg-info/PKG-INFO
+[35.147s] writing dependency_links to ../../build/Copter/Copter.egg-info/dependency_links.txt
+[35.147s] writing requirements to ../../build/Copter/Copter.egg-info/requires.txt
+[35.147s] writing top-level names to ../../build/Copter/Copter.egg-info/top_level.txt
+[35.147s] writing manifest file '../../build/Copter/Copter.egg-info/SOURCES.txt'
+[35.204s] reading manifest file '../../build/Copter/Copter.egg-info/SOURCES.txt'
+[35.204s] writing manifest file '../../build/Copter/Copter.egg-info/SOURCES.txt'
+[35.204s] running build
+[35.204s] running build_py
+[35.205s] creating /home/alejandro/Desktop/1-DOF_Copter/copter_ws/build/Copter/build
+[35.205s] creating /home/alejandro/Desktop/1-DOF_Copter/copter_ws/build/Copter/build/lib
+[35.205s] creating /home/alejandro/Desktop/1-DOF_Copter/copter_ws/build/Copter/build/lib/Copter
+[35.205s] copying Copter/__init__.py -> /home/alejandro/Desktop/1-DOF_Copter/copter_ws/build/Copter/build/lib/Copter
+[35.205s] running install
+[35.211s] running install_lib
+[35.238s] creating /home/alejandro/Desktop/1-DOF_Copter/copter_ws/install/Copter/lib/python3.12/site-packages/Copter
+[35.239s] copying /home/alejandro/Desktop/1-DOF_Copter/copter_ws/build/Copter/build/lib/Copter/__init__.py -> /home/alejandro/Desktop/1-DOF_Copter/copter_ws/install/Copter/lib/python3.12/site-packages/Copter
+[35.239s] byte-compiling /home/alejandro/Desktop/1-DOF_Copter/copter_ws/install/Copter/lib/python3.12/site-packages/Copter/__init__.py to __init__.cpython-312.pyc
+[35.239s] running install_data
+[35.239s] creating /home/alejandro/Desktop/1-DOF_Copter/copter_ws/install/Copter/share/ament_index
+[35.239s] creating /home/alejandro/Desktop/1-DOF_Copter/copter_ws/install/Copter/share/ament_index/resource_index
+[35.240s] creating /home/alejandro/Desktop/1-DOF_Copter/copter_ws/install/Copter/share/ament_index/resource_index/packages
+[35.240s] copying resource/Copter -> /home/alejandro/Desktop/1-DOF_Copter/copter_ws/install/Copter/share/ament_index/resource_index/packages
+[35.240s] copying package.xml -> /home/alejandro/Desktop/1-DOF_Copter/copter_ws/install/Copter/share/Copter
+[35.240s] running install_egg_info
+[35.269s] Copying ../../build/Copter/Copter.egg-info to /home/alejandro/Desktop/1-DOF_Copter/copter_ws/install/Copter/lib/python3.12/site-packages/Copter-0.0.0-py3.12.egg-info
+[35.270s] running install_scripts
+[35.445s] writing list of installed files to '/home/alejandro/Desktop/1-DOF_Copter/copter_ws/build/Copter/install.log'
+[35.472s] Invoked command in '/home/alejandro/Desktop/1-DOF_Copter/copter_ws/src/Copter' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/alejandro/Desktop/1-DOF_Copter/copter_ws/build/Copter/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/alejandro/Desktop/1-DOF_Copter/copter_ws/install/Copter/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/Copter build --build-base /home/alejandro/Desktop/1-DOF_Copter/copter_ws/build/Copter/build install --record /home/alejandro/Desktop/1-DOF_Copter/copter_ws/build/Copter/install.log --install-scripts $base/lib/Copter --single-version-externally-managed install_data
