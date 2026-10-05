@@ -64,6 +64,7 @@ class CopterSerialNode (Node):
         )
 
     def serial_callback(self):
+
         while self.serial.in_waiting >= 2:
 
             data = self.serial.read(2)
