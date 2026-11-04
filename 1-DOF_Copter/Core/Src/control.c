@@ -37,7 +37,7 @@ void controlInit
 	control->output = output;
 	control->errorN1 = errorN1;
 	control->errorN2 = errorN2;
-	control->outputN1 = outputN2;
+	control->outputN1 = outputN1;
 	control->outputN2 = outputN2;
 
 }
@@ -177,8 +177,7 @@ void setOutputN2(volatile control_status_t *control, float outputN2)
 
 // BASIC LOGIC BEGIN
 
-
-uint16_t clamp(float value, float max, float min)
+float clamp(float value, float max, float min)
 {
 	if (value > max)
 	{
@@ -191,6 +190,20 @@ uint16_t clamp(float value, float max, float min)
 	return value;
 }
 
+uint32_t WritePWM (volatile control_status_t *control, float value)
+{
+	value = clamp(value, OUTPUTMAX, OUTPUTMIN);
+	uint32_t pwmValue = 90000 + (value * 90);
+	return pwmValue;
+}
+
+uint16_t map(uint16_t x, long in_min, long in_max, long out_min, long out_max)
+{
+    return (x - in_min) * (out_max - out_min + 1)
+           / (in_max - in_min + 1)
+           + out_min;
+}
+
 // BASIC LOGIC END
 
 // CLOSED LOOP LOGIC BEGIN
@@ -200,16 +213,27 @@ void computeError (volatile control_status_t *control)
 	control->error = control->setpoint - control->measured;
 }
 
-// CLOSED LOOP LOGIC END
 
-// OPEN LOOP LOGIC BEGIN
-uint32_t WritePWM(volatile control_status_t *control, float value)
+void computePID (volatile control_status_t *control)
 {
-	value = clamp(value, OUTPUTMAX, OUTPUTMIN);
-	uint32_t pwmValue = 90000 + (value * 90);
-	return pwmValue;
-	//__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pwmValue);
+	control->output =
+			control->c1 * control->outputN1 +
+			control->c2 * control->outputN2 +
+			control->c3 * control->error +
+			control->c4 * control->errorN1 +
+			control->c5 * control->errorN2;
 }
-// OPEN LOOP LOGIC END
+
+void updatePID (volatile control_status_t *control)
+{
+	//update errors
+	control->errorN2 = control->errorN1;
+	control->errorN1 = control->error;
+
+	//update outputs
+	control->outputN2 = control->outputN1;
+	control->outputN1 = control->output;
+}
+// CLOSED LOOP LOGIC END
 
 

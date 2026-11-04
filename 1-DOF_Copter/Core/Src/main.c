@@ -64,23 +64,22 @@ static void MX_ADC1_Init(void);
 static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
-uint16_t map(uint16_t x, long in_min, long in_max, long out_min, long out_max);
+
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-
-static uint16_t voltage;
 static uint16_t adcValue;
+volatile bool flag = false;
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
 	if(hadc == &hadc1){
 		adcValue = (uint16_t)HAL_ADC_GetValue(&hadc1);
-		uint16_t mapped =  map(adcValue, 0, 550, 45, 90); // Sensor Data (Angle)
-		uint16_t mappedVoltage = map(voltage, 0,1000,0,330); // Reference
+		setMeasured(control, map(adcValue, 0, 550, 45, 90)); // Sensor Data (Angle)
+		control->setpoint = 90;
 		/*
 		 * set Setpoint
 		 * set Error
@@ -89,18 +88,27 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 		 * Reset Windup
 		 *
 		 */
+		if (flag == true){
+			computeError(control);
+			computePID(control);
+			setOutput(control, clamp(control->output, 999, 0));
+			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, WritePWM(control, getOutput(control)));
+			updatePID(control);
+		}
 
+//		  if(command[0] == 'C')
+//		  {
+//			  int32_t value = atoi(&command[1]);
+//			  computeError(control);
+//		  }
 
+		SerialSendPlot2(control->measured, control->output);
+		/*
+		 * output gain = 330/1000
+		 *
+		 */
 
-		SerialSendPlot2(mapped, mappedVoltage);
 	}
-}
-
-uint16_t map(uint16_t x, long in_min, long in_max, long out_min, long out_max)
-{
-    return (x - in_min) * (out_max - out_min + 1)
-           / (in_max - in_min + 1)
-           + out_min;
 }
 
 /* USER CODE END 0 */
@@ -140,12 +148,14 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+  controlInit(control, 1, 0, 0.367138, -0.258362, 0, 0, 0, 0, 0, 0, 0, 0, 0);
   HAL_ADC_Start_IT(&hadc1);
   HAL_TIM_Base_Start(&htim3);
 
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
   __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 90000);
   serialInit(&huart2);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -162,12 +172,17 @@ int main(void)
 
 		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);//debug
 
-		  if(command[0] == 'F'){
-
+		  if(command[0] == 'F')
+	  	  {
+			  flag = false;
 			  int32_t value = atoi(&command[1]);
+			  setOutput(control, value);
 			  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, WritePWM(control, value));
-
 		  }
+		  if (command[0] == 'C'){
+			  flag = true;
+		  }
+
 	  }
   }
   /* USER CODE END 3 */

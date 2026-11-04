@@ -6,6 +6,13 @@
 
 #define SERIAL_BUFFER_SIZE 32
 
+typedef enum
+{
+	CMD_NONE,
+	CMD_OL,
+	CMD_CL
+};
+
 void serialInit(UART_HandleTypeDef *huart);
 uint8_t serialAvailable(void); //if the data is not over receiving returns zero
 void serialReadLine(char *destination, uint16_t maxLength);
