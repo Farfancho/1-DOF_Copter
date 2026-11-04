@@ -63,20 +63,46 @@ static void MX_ADC1_Init(void);
 static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
+uint16_t map(uint16_t x, long in_min, long in_max, long out_min, long out_max);
+void SerialSendPlot2(uint16_t v1, uint16_t v2);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+uint8_t txBuffer[4];
+static uint16_t voltage;
 static uint16_t adcValue;
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
 	if(hadc == &hadc1){
 		adcValue = (uint16_t)HAL_ADC_GetValue(&hadc1);
-		HAL_UART_Transmit_DMA(&huart2, (uint8_t *) &adcValue, sizeof(adcValue));
+		uint16_t mapped =  map(adcValue, 0, 550, 45, 90);
+		uint16_t mappedVoltage = map(voltage, 0,1000,0,330);
+		//HAL_UART_Transmit_DMA(&huart2, (uint8_t *) &adcValue, sizeof(adcValue));
+		SerialSendPlot2(mapped, mappedVoltage);
+		//SerialSendPlot2(1000, 2000);
 	}
+}
 
+uint16_t map(uint16_t x, long in_min, long in_max, long out_min, long out_max)
+{
+    return (x - in_min) * (out_max - out_min + 1)
+           / (in_max - in_min + 1)
+           + out_min;
+}
+
+void SerialSendPlot2(uint16_t v1, uint16_t v2)
+{
+    txBuffer[0] = (uint8_t)(v1 & 0xFF);
+    txBuffer[1] = (uint8_t)((v1 >> 8) & 0xFF);
+
+    txBuffer[2] = (uint8_t)(v2 & 0xFF);
+    txBuffer[3] = (uint8_t)((v2 >> 8) & 0xFF);
+
+    HAL_UART_Transmit_IT(&huart2, txBuffer, 4);
 }
 
 /* USER CODE END 0 */
@@ -141,7 +167,7 @@ int main(void)
 		  if(command[0] == 'F'){
 
 			  int32_t value = atoi(&command[1]);
-
+			  voltage = value;
 			  if(value >= 0 && value <= 1000){
 				  uint32_t pwmValue = 90000 + (value * 90);
 				  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, pwmValue);

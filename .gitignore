@@ -61,3 +61,18 @@
 Thumbs.db
 Desktop.ini
 .directory
+
+
+# ROS 2 / Colcon
+**/build/
+**/install/
+**/log/
+# ROS 2 - Colcon generated files
+**/build/
+**/install/
+**/log/
+
+# Python generated files
+**/__pycache__/
+*.py[cod]
+*.egg-info/
