@@ -64,26 +64,16 @@ class CopterSerialNode (Node):
         )
 
     def serial_callback(self):
-        if self.serial.in_waiting == 0:
-            return
-        
-        data = self.serial.read(
-            self.serial.in_waiting
-        ) 
 
-        text = data.decode("utf-8")
+        while self.serial.in_waiting >= 2:
 
-        self.rxBuffer += text
+            data = self.serial.read(2)
 
-        while '\n' in self.rxBuffer:
-            line, self.rxBuffer = self.rxBuffer.split('\n', 1)
-
-            line = line.strip()
-
-            if line == '':
-                continue
-
-            angle = int(line)
+            angle = int.from_bytes(
+                data,
+                byteorder="little",
+                signed=False
+            )
 
             msg = UInt16()
             msg.data = angle
@@ -91,7 +81,7 @@ class CopterSerialNode (Node):
             self.publisher.publish(msg)
 
             self.get_logger().info(
-                f"Angle: {msg.data}"
+                f"Angle: {angle}"
             )
 
 def main(args=None):
