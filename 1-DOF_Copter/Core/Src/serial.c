@@ -7,6 +7,8 @@ static char rxBuffer[SERIAL_BUFFER_SIZE];//this is the big buffer (32 bytes)
 static volatile uint16_t rxIndex = 0;
 static volatile uint8_t commandReady = 0;
 
+uint8_t txBuffer[4]; //Buffer for data TX
+
 void serialInit(UART_HandleTypeDef *huart){
 	serialUart = huart;
 	rxIndex = 0;
@@ -55,3 +57,15 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 		HAL_UART_Receive_IT(serialUart, &rxByte, 1);
 	}
 }
+
+void SerialSendPlot2(uint16_t v1, uint16_t v2)
+{
+    txBuffer[0] = (uint8_t)(v1 & 0xFF);
+    txBuffer[1] = (uint8_t)((v1 >> 8) & 0xFF);
+
+    txBuffer[2] = (uint8_t)(v2 & 0xFF);
+    txBuffer[3] = (uint8_t)((v2 >> 8) & 0xFF);
+
+    HAL_UART_Transmit_IT(serialUart, txBuffer, 4);
+}
+
