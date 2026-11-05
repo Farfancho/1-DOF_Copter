@@ -107,3 +107,7 @@ Desktop.ini
 **/__pycache__/
 *.py[cod]
 *.egg-info/
+
+settings2.ini 
+settings.ini 
+diseno.m
