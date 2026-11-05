@@ -11,7 +11,7 @@ typedef enum
 	CMD_NONE,
 	CMD_OL,
 	CMD_CL
-};
+}CMD;
 
 void serialInit(UART_HandleTypeDef *huart);
 uint8_t serialAvailable(void); //if the data is not over receiving returns zero

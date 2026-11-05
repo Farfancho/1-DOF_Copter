@@ -78,8 +78,8 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
 	if(hadc == &hadc1){
 		adcValue = (uint16_t)HAL_ADC_GetValue(&hadc1);
-		setMeasured(control, map(adcValue, 0, 550, 45, 90)); // Sensor Data (Angle)
-		control->setpoint = 90;
+		setMeasured(control, map(adcValue, 125, 630, 45, 90)); // Sensor Data (Angle)
+		control->setpoint = 88;
 		/*
 		 * set Setpoint
 		 * set Error
@@ -91,16 +91,10 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 		if (flag == true){
 			computeError(control);
 			computePID(control);
-			setOutput(control, clamp(control->output, 999, 0));
+			setOutput(control, clamp(control->output, 400, 0));
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, WritePWM(control, getOutput(control)));
 			updatePID(control);
 		}
-
-//		  if(command[0] == 'C')
-//		  {
-//			  int32_t value = atoi(&command[1]);
-//			  computeError(control);
-//		  }
 
 		SerialSendPlot2(control->measured, control->output);
 		/*
@@ -148,7 +142,8 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  controlInit(control, 1, 0, 0.367138, -0.258362, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+  controlInit(control, 1, 0, 5.5787, -5.4754, 0, 0, 0, 0, 316, 0, 0, 316, 316);
+  //controlInit(control, 0.67159, 0.32841, 121.35,  -230.99,  109.85, 0, 0, 0, 316, 0, 0, 316, 316);
   HAL_ADC_Start_IT(&hadc1);
   HAL_TIM_Base_Start(&htim3);
 
