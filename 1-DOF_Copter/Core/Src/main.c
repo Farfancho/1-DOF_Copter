@@ -79,7 +79,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 	if(hadc == &hadc1){
 		adcValue = (uint16_t)HAL_ADC_GetValue(&hadc1);
 		setMeasured(control, map(adcValue, 125, 630, 45, 90)); // Sensor Data (Angle)
-		control->setpoint = 88;
+		control->setpoint = 80;
 		/*
 		 * set Setpoint
 		 * set Error
@@ -99,6 +99,12 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 		SerialSendPlot2(control->measured, control->output);
 		/*
 		 * output gain = 330/1000
+		 *
+		 * 1. angulo pote
+		 * 2. salida PWM
+		 * 3. error
+		 * 4. setpoint
+		 *
 		 *
 		 */
 
@@ -142,7 +148,8 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  controlInit(control, 1, 0, 5.5787, -5.4754, 0, 0, 0, 0, 316, 0, 0, 316, 316);
+  controlInit(control, 1, 0, 4.145, -4.0306, 0, 0, 0, 0, 316, 0, 0, 316, 316);
+
   //controlInit(control, 0.67159, 0.32841, 121.35,  -230.99,  109.85, 0, 0, 0, 316, 0, 0, 316, 316);
   HAL_ADC_Start_IT(&hadc1);
   HAL_TIM_Base_Start(&htim3);
