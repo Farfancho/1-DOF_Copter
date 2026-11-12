@@ -75,11 +75,15 @@ void setErrorN1(volatile control_status_t *control, float errorN1);
 void setErrorN2(volatile control_status_t *control, float errorN2);
 void setOutputN1(volatile control_status_t *control, float outputN1);
 void setOutputN2(volatile control_status_t *control, float outputN2);
+void setKd(float value);
+void setKi(float value);
+void setKp(float value);
 void computeError (volatile control_status_t *control);
 uint32_t WritePWM(volatile control_status_t *control, float value);
 float clamp(float value, float max, float min);
 uint16_t map(uint16_t x, long in_min, long in_max, long out_min, long out_max);
 void computePID (volatile control_status_t *control);
 void updatePID (volatile control_status_t *control);
+void updateCoefficients(void);
 
 #endif /* INC_CONTROL_H_ */

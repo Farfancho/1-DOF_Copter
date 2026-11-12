@@ -80,11 +80,11 @@ void SerialSendPlot4(uint16_t v1, uint16_t v2, uint16_t v3, uint16_t v4)
 	txBuffer2[2] = (uint8_t)(v2 & 0xFF);
 	txBuffer2[3] = (uint8_t)((v2 >> 8) & 0xFF);
 
-	txBuffer2[5] = (uint8_t)(v3 & 0xFF);
-	txBuffer2[6] = (uint8_t)((v3 >> 8) & 0xFF);
+	txBuffer2[4] = (uint8_t)(v3 & 0xFF);
+	txBuffer2[5] = (uint8_t)((v3 >> 8) & 0xFF);
 
-	txBuffer2[7] = (uint8_t)(v4 & 0xFF);
-	txBuffer2[8] = (uint8_t)((v4 >> 8) & 0xFF);
+	txBuffer2[6] = (uint8_t)(v4 & 0xFF);
+	txBuffer2[7] = (uint8_t)((v4 >> 8) & 0xFF);
 
     HAL_UART_Transmit_IT(serialUart, txBuffer2, 8);
 }
@@ -99,35 +99,4 @@ uint16_t decodeGcode(char *input) {
     return CMD_NONE;
 }
 
-void ProcessCMD(char *input){
-	int16_t cmd;
-	int16_t value;
-
-	cmd = decodeGcode(input);
-	switch(cmd)
-	{
-		case CMD_CL:
-			//cosed loop logic
-			break;
-		case CMD_OL:
-			//open loop logic
-			break;
-		case CMD_KP:
-			//change Ki
-			break;
-		case CMD_KI:
-			//change Ki
-			break;
-		case CMD_KD:
-			//change Kd
-			break;
-		case CMD_STOP:
-			//emergency Stop
-			break;
-		case CMD_NONE:
-		default:
-			break;
-
-	}
-}
 

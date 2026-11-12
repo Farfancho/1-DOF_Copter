@@ -79,14 +79,13 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 	if(hadc == &hadc1){
 		adcValue = (uint16_t)HAL_ADC_GetValue(&hadc1);
 		setMeasured(control, map(adcValue, 125, 630, 45, 90)); // Sensor Data (Angle)
-		control->setpoint = 80;
+		//control->setpoint = 80;
 		/*
 		 * set Setpoint
 		 * set Error
 		 * Update PIDOutput
 		 * Clamp Output
 		 * Reset Windup
-		 *
 		 */
 		if (flag == true){
 			computeError(control);
@@ -99,15 +98,11 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 		SerialSendPlot2(control->measured, control->output);
 		/*
 		 * output gain = 330/1000
-		 *
 		 * 1. angulo pote
 		 * 2. salida PWM
 		 * 3. error
 		 * 4. setpoint
-		 *
-		 *
 		 */
-
 	}
 }
 
@@ -148,7 +143,7 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  controlInit(control, 1, 0, 4.145, -4.0306, 0, 0, 0, 0, 316, 0, 0, 316, 316);
+  controlInit(control, 1, 0, 4.145, -4.0306, 0, 80, 0, 0, 316, 0, 0, 316, 316);
 
   //controlInit(control, 0.67159, 0.32841, 121.35,  -230.99,  109.85, 0, 0, 0, 316, 0, 0, 316, 316);
   HAL_ADC_Start_IT(&hadc1);
@@ -168,23 +163,67 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  if(serialAvailable()){
+	  if (serialAvailable())
+	  {
+	      serialReadLine(command, sizeof(command));
 
-		  serialReadLine(command, sizeof(command));
+	      uint16_t cmd = decodeGcode(command);
 
-		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);//debug
+	      HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 
-		  if(command[0] == 'F')
-	  	  {
-			  flag = false;
-			  int32_t value = atoi(&command[1]);
-			  setOutput(control, value);
-			  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, WritePWM(control, value));
-		  }
-		  if (command[0] == 'C'){
-			  flag = true;
-		  }
+	      switch (cmd)
+	      {
+	          case CMD_CL:
+	              flag = true;
+	              break;
 
+	          case CMD_OL:
+	              flag = false;
+
+	              if (command[0] == 'F')
+	              {
+	                  int32_t value = atoi(&command[1]);
+
+	                  setOutput(control, value);
+
+	                  __HAL_TIM_SET_COMPARE(
+	                      &htim2,
+	                      TIM_CHANNEL_1,
+	                      WritePWM(control, value)
+	                  );
+	              }
+	              break;
+
+	          case CMD_KP:
+	        	  setKp(atof(&command[1]));
+	              updateCoefficients();
+	              break;
+
+	          case CMD_KI:
+	        	  setKi(atof(&command[1]));
+	              updateCoefficients();
+	              break;
+
+	          case CMD_KD:
+	        	  setKd(atof(&command[1]));
+	              updateCoefficients();
+	              break;
+
+	          case CMD_STOP:
+	              flag = false;
+	              setOutput(control, 0);
+
+	              __HAL_TIM_SET_COMPARE(
+	                  &htim2,
+	                  TIM_CHANNEL_1,
+	                  WritePWM(control, 0)
+	              );
+	              break;
+
+	          case CMD_NONE:
+	          default:
+	              break;
+	      }
 	  }
   }
   /* USER CODE END 3 */

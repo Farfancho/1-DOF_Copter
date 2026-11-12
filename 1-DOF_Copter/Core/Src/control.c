@@ -2,9 +2,16 @@
 
 #define OUTPUTMAX 999
 #define OUTPUTMIN 0
+#define CONTROL_TS 0.02f
 
 volatile control_status_t control_data; //creacion de la variable
 volatile control_status_t *control = &control_data; //puntero a la variable
+
+static float Kp = 4.0878f;
+static float Ki = 5.72f;
+static float Kd = 0.0f;
+
+extern volatile bool flag;
 
 void controlInit
 (
@@ -173,6 +180,21 @@ void setOutputN2(volatile control_status_t *control, float outputN2)
 {
     control->outputN2 = outputN2;
 }
+
+void setKp(float value)
+{
+    Kp = value;
+}
+
+void setKi(float value)
+{
+    Ki = value;
+}
+
+void setKd(float value)
+{
+    Kd = value;
+}
 // GETTERS AND SETTERS END
 
 // BASIC LOGIC BEGIN
@@ -233,6 +255,24 @@ void updatePID (volatile control_status_t *control)
 	//update outputs
 	control->outputN2 = control->outputN1;
 	control->outputN1 = control->output;
+}
+
+void updateCoefficients(void)
+{
+    bool previousFlag = flag;
+    flag = false;
+
+    float integral = Ki * CONTROL_TS / 2.0f;
+    float derivative = Kd / CONTROL_TS;
+
+    setC1(control, 1.0f);
+    setC2(control, 0.0f);
+
+    setC3(control, Kp + integral + derivative);
+    setC4(control, -Kp + integral - 2.0f * derivative);
+    setC5(control, derivative);
+
+    flag = previousFlag;
 }
 // CLOSED LOOP LOGIC END
 
