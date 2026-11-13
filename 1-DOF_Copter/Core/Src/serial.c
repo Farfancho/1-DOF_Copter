@@ -90,12 +90,13 @@ void SerialSendPlot4(uint16_t v1, uint16_t v2, uint16_t v3, uint16_t v4)
 }
 
 uint16_t decodeGcode(char *input) {
-    if (strncmp(input, "C", 1) == 0) return CMD_CL;
-    if (strncmp(input, "O", 1) == 0) return CMD_OL;
-    if (strncmp(input, "P", 1) == 0) return CMD_KP;
-    if (strncmp(input, "I", 1) == 0) return CMD_KI;
-    if (strncmp(input, "D", 1) == 0) return CMD_KD;
-    if (strncmp(input, "S", 1) == 0) return CMD_STOP;
+    if (strncmp(input, "C", 1) == 0) return CMD_CL; //Closed Loop
+    if (strncmp(input, "O", 1) == 0) return CMD_OL;	//Open Loop
+    if (strncmp(input, "P", 1) == 0) return CMD_KP; //change Kp
+    if (strncmp(input, "I", 1) == 0) return CMD_KI; //change Ki
+    if (strncmp(input, "D", 1) == 0) return CMD_KD;	//change Kd
+    if (strncmp(input, "R", 1) == 0) return CMD_R; //change setpoint
+    if (strncmp(input, "S", 1) == 0) return CMD_STOP; //emergency Stops
     return CMD_NONE;
 }
 

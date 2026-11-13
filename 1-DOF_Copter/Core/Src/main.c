@@ -87,15 +87,15 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 		 * Clamp Output
 		 * Reset Windup
 		 */
+		computeError(control);
 		if (flag == true){
-			computeError(control);
 			computePID(control);
 			setOutput(control, clamp(control->output, 400, 0));
 			__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, WritePWM(control, getOutput(control)));
 			updatePID(control);
 		}
 
-		SerialSendPlot2(control->measured, control->output);
+		SerialSendPlot4(control->measured, control->output, control->error + 120, control->setpoint);
 		/*
 		 * output gain = 330/1000
 		 * 1. angulo pote
@@ -143,7 +143,7 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  controlInit(control, 1, 0, 4.145, -4.0306, 0, 80, 0, 0, 316, 0, 0, 316, 316);
+  controlInit(control, 1, 0, 4.145, -4.0306, 0, 80, 0, 0, 0, 0, 0, 316, 316);
 
   //controlInit(control, 0.67159, 0.32841, 121.35,  -230.99,  109.85, 0, 0, 0, 316, 0, 0, 316, 316);
   HAL_ADC_Start_IT(&hadc1);
@@ -180,7 +180,7 @@ int main(void)
 	          case CMD_OL:
 	              flag = false;
 
-	              if (command[0] == 'F')
+	              if (command[0] == 'O')
 	              {
 	                  int32_t value = atoi(&command[1]);
 
@@ -208,6 +208,10 @@ int main(void)
 	        	  setKd(atof(&command[1]));
 	              updateCoefficients();
 	              break;
+
+	          case CMD_R:
+	        	  setSetpoint(control, atof(&command[1]));
+	        	  break;
 
 	          case CMD_STOP:
 	              flag = false;

@@ -14,6 +14,7 @@ typedef enum
 	CMD_KP,
 	CMD_KI,
 	CMD_KD,
+	CMD_R,
 	CMD_STOP
 }CMD;
 
