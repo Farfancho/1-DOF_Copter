@@ -74,8 +74,8 @@ cd 1-DOF_Copter
 4. Connect the board through ST-LINK/USB and flash the program.
 5. Connect to the board's serial port at **115200 baud, 8-N-1**.
 
-> **Safety:** Secure the mechanism, keep clear of the propeller. Disconnect motor power when changing wiring.
-
+> [!CAUTION]  
+> Secure the mechanism, keep clear of the propeller. Disconnect motor power when changing wiring.
 
 ### 3. Send serial commands
 
