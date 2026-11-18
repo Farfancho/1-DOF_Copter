@@ -15,6 +15,7 @@ typedef enum
 	CMD_KI,
 	CMD_KD,
 	CMD_R,
+	CMD_TEST,
 	CMD_STOP
 }CMD;
 

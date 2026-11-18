@@ -97,6 +97,7 @@ uint16_t decodeGcode(char *input) {
     if (strncmp(input, "D", 1) == 0) return CMD_KD;	//change Kd
     if (strncmp(input, "R", 1) == 0) return CMD_R; //change setpoint
     if (strncmp(input, "S", 1) == 0) return CMD_STOP; //emergency Stops
+    if (strncmp(input, "T", 1) == 0) return CMD_TEST; //squarewave tester
     return CMD_NONE;
 }
 

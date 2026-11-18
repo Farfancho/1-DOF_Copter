@@ -223,6 +223,9 @@ int main(void)
 	                  WritePWM(control, 0)
 	              );
 	              break;
+	          case CMD_TEST:
+
+	        	  break;
 
 	          case CMD_NONE:
 	          default:
