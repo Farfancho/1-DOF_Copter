@@ -7,8 +7,8 @@
 volatile control_status_t control_data; //creacion de la variable
 volatile control_status_t *control = &control_data; //puntero a la variable
 
-static float Kp = 4.0878f;
-static float Ki = 5.72f;
+static float Kp = 1.28f;
+static float Ki = 0.22f;
 static float Kd = 0.0f;
 
 extern volatile bool flag;

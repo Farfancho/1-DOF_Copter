@@ -46,6 +46,7 @@ ADC_HandleTypeDef hadc1;
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim4;
 
 UART_HandleTypeDef huart2;
 DMA_HandleTypeDef hdma_usart2_tx;
@@ -62,6 +63,7 @@ static void MX_USART2_UART_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_TIM3_Init(void);
+static void MX_TIM4_Init(void);
 /* USER CODE BEGIN PFP */
 
 
@@ -70,6 +72,11 @@ static void MX_TIM3_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+#define REFERENCE_LOW 70.0f
+#define REFERENCE_HIGH 90.0f
+
+volatile bool testFlag = false;
+volatile bool referenceHigh = false;
 
 static uint16_t adcValue;
 volatile bool flag = false;
@@ -142,8 +149,10 @@ int main(void)
   MX_TIM2_Init();
   MX_ADC1_Init();
   MX_TIM3_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-  controlInit(control, 1, 0, 4.145, -4.0306, 0, 80, 0, 0, 0, 0, 0, 316, 316);
+  controlInit(control, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 316, 316);
+  updateCoefficients();
 
   //controlInit(control, 0.67159, 0.32841, 121.35,  -230.99,  109.85, 0, 0, 0, 316, 0, 0, 316, 316);
   HAL_ADC_Start_IT(&hadc1);
@@ -179,6 +188,8 @@ int main(void)
 
 	          case CMD_OL:
 	              flag = false;
+	              testFlag = false;
+	              HAL_TIM_Base_Stop_IT(&htim4);
 
 	              if (command[0] == 'O')
 	              {
@@ -192,6 +203,7 @@ int main(void)
 	                      WritePWM(control, value)
 	                  );
 	              }
+
 	              break;
 
 	          case CMD_KP:
@@ -210,11 +222,15 @@ int main(void)
 	              break;
 
 	          case CMD_R:
+	        	  testFlag = false;
+	        	  HAL_TIM_Base_Stop_IT(&htim4);
 	        	  setSetpoint(control, atof(&command[1]));
 	        	  break;
 
 	          case CMD_STOP:
 	              flag = false;
+	              testFlag = false;
+	              HAL_TIM_Base_Stop_IT(&htim4);
 	              setOutput(control, 0);
 
 	              __HAL_TIM_SET_COMPARE(
@@ -222,10 +238,26 @@ int main(void)
 	                  TIM_CHANNEL_1,
 	                  WritePWM(control, 0)
 	              );
+
 	              break;
 	          case CMD_TEST:
 
-	        	  break;
+	              if (flag)
+	              {
+	                  HAL_TIM_Base_Stop_IT(&htim4);
+
+	                  testFlag = true;
+	                  referenceHigh = false;
+
+	                  setSetpoint(control, REFERENCE_LOW);
+
+	                  __HAL_TIM_SET_COUNTER(&htim4, 0);
+	                  __HAL_TIM_CLEAR_FLAG(&htim4, TIM_FLAG_UPDATE);
+
+	                  HAL_TIM_Base_Start_IT(&htim4);
+	              }
+
+	              break;
 
 	          case CMD_NONE:
 	          default:
@@ -447,6 +479,51 @@ static void MX_TIM3_Init(void)
 }
 
 /**
+  * @brief TIM4 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM4_Init(void)
+{
+
+  /* USER CODE BEGIN TIM4_Init 0 */
+
+  /* USER CODE END TIM4_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM4_Init 1 */
+
+  /* USER CODE END TIM4_Init 1 */
+  htim4.Instance = TIM4;
+  htim4.Init.Prescaler = 17999;
+  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 39999;
+  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM4_Init 2 */
+
+  /* USER CODE END TIM4_Init 2 */
+
+}
+
+/**
   * @brief USART2 Initialization Function
   * @param None
   * @retval None
@@ -535,6 +612,26 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) //logica de interrupción de los timers
+{
+    if (htim->Instance == TIM4)
+    {
+        if (testFlag && flag)
+        {
+            referenceHigh = !referenceHigh;
+
+            if (referenceHigh)
+            {
+                setSetpoint(control, REFERENCE_HIGH);
+            }
+            else
+            {
+                setSetpoint(control, REFERENCE_LOW);
+            }
+        }
+    }
+}
 
 /* USER CODE END 4 */
 
